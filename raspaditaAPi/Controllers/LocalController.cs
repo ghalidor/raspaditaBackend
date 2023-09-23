@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace raspaditaAPi.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class LocalController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -14,16 +15,16 @@ namespace raspaditaAPi.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("ListarLocales")]
-        public async Task<IActionResult> ListarLocales()
+        [HttpGet("GetLocales")]
+        public async Task<IActionResult> GetLocales()
         {
             string message = "Lista Locales";
             var data = await _mediator.Send(new GetLocalQuery());
             return new OkObjectResult(new { message, data });
         }
 
-        [HttpGet("DetalleLocal/{id}")]
-        public async Task<IActionResult> DetalleLocal(Int64 id)
+        [HttpGet("GetDetalleLocal/{id}")]
+        public async Task<IActionResult> GetDetalleLocal(Int64 id)
         {
             string message = "Detalle Local";
             var data = await _mediator.Send(new GetDetalleLocalQuery() { local_id=id });

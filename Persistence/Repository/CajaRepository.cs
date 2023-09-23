@@ -42,6 +42,23 @@ namespace Persistence.Repository
             return await db.QueryAsync<caja>(sql, new { local_id = local_id });
         }
 
+        public async Task<IEnumerable<caja>> GetCajasxlocal_idxfechahoy(Int64 local_id,DateTime fecha)
+        {
+            var db = _context.CreateConnection();
+            var sql = @" SELECT id
+      ,[local_id]
+      ,[fechaoperacion]
+      ,[fechaapertura]
+      ,[nro_apertura]
+      ,[fechacierre]
+      ,[usuario_id]
+      ,[estado] FROM [caja]
+                    where local_id=@local_id and convert(date,fechaapertura)= convert(date,@fecha)
+                    order by id asc";
+            return await db.QueryAsync<caja>(sql, new { local_id = local_id, fecha= fecha });
+        }
+        
+
         public async Task<bool> CreateCaja(caja caja)
         {
             var db = _context.CreateConnection();

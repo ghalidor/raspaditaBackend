@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace raspaditaAPi.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class CajaController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -28,6 +29,14 @@ namespace raspaditaAPi.Controllers
             string message = "Lista Cajas x Local";
             var data = await _mediator.Send(new GetCajaxLocal_idQuery() { local_id = local_id});
             return new OkObjectResult(new { message, data });
+        }
+
+        [HttpPost("AperturarCaja")]
+        public async Task<IActionResult> AperturarCaja()
+        {
+            var command = new AperturarCajaCommand() { };
+            ServiceResponse response = await _mediator.Send(command);
+            return new OkObjectResult(new { response });
         }
 
         [HttpPost("CreateCaja")]

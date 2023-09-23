@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace raspaditaAPi.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class TransaccionesController : ControllerBase
     {
         private readonly IMediator _mediator;
