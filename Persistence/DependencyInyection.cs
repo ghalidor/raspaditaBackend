@@ -15,6 +15,8 @@ namespace Persistence
             services.AddScoped<ILocalRepository, LocalRepository>();
             services.AddScoped<IPuntoJuegoRepository, PuntoJuegoRepository>();
             services.AddScoped<ITransaccionesRepository,TransaccionesRepository>();
+            services.AddScoped<IScratchRepository, ScratchRepository>();
+            services.AddScoped<IRolRepository, RolRepository>();
         }
     }
 }

@@ -17,7 +17,10 @@ builder.Services.AddCors(o => o.AddPolicy("cors", options =>
 );
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+}); ;
 builder.Services.AddPersistence();
 builder.Services.AddApplication();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

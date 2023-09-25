@@ -24,7 +24,7 @@ namespace Persistence.Repository
       ,[fechacierre]
       ,[usuario_id]
       ,[estado]
-FROM [apertura] FROM [apertura]
+ FROM [apertura]
                     where local_id=@local_id 
                     order by id asc";
             return await db.QueryAsync<apertura>(sql, new { local_id = local_id });

@@ -1,14 +1,13 @@
-﻿
-
+﻿using Application.IRepository;
 using Dapper;
 using Domain;
 
 namespace Persistence.Repository
 {
-    public class ScratchRespository
+    public class ScratchRepository: IScratchRepository
     {
         private readonly DapperContext _context;
-        public ScratchRespository(DapperContext context)
+        public ScratchRepository(DapperContext context)
         {
             _context = context;
         }
@@ -17,7 +16,7 @@ namespace Persistence.Repository
         {
             var db = _context.CreateConnectionScratch();
             var sql = @"
-SELECT [codigo]
+SELECT id,[codigo]
       ,[simbolos]
       ,[simbPrem]
       ,[montoPremiado]
@@ -25,11 +24,23 @@ SELECT [codigo]
             return await db.QueryAsync<Scratch_Matrix>(sql);
         }
 
+        public async Task<Scratch_Matrix> GetMatrixPosicion(Int64 id)
+        {
+            var db = _context.CreateConnectionScratch();
+            var sql = @"SELECT id,[codigo]
+      ,[simbolos]
+      ,[simbPrem]
+      ,[montoPremiado]
+  FROM [MF_Matrix]
+                    where id=@id";
+            return await db.QueryFirstOrDefaultAsync<Scratch_Matrix>(sql, new { id = id });
+        }
+
         public async Task<IEnumerable<Scratch_Tp>> GetTp()
         {
             var db = _context.CreateConnectionScratch();
             var sql = @"
-SELECTtp_value
+SELECT tp_value
   FROM [MF_TP]";
             return await db.QueryAsync<Scratch_Tp>(sql);
         }

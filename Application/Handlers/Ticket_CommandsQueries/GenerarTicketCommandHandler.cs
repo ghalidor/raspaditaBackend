@@ -28,6 +28,8 @@ namespace Application.Handlers.Ticket_CommandsQueries
             ServiceResponseTicket response = new ServiceResponseTicket();
             try
             {
+
+
                 transacciones registro =new transacciones();
                 ticket nuevo = new ticket();
                 nuevo.estado = true;
