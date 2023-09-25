@@ -19,8 +19,9 @@ namespace Persistence.Repository
             var sql = @"SELECT [id]
       ,[nombre]
       ,[direccion]
-      ,[fecharegistro]
       ,[formato]
+      ,[fecharegistro]
+      ,[fechaupdated]
       ,[estado]
   FROM [local]";
             return await db.QueryAsync<local>(sql);
@@ -29,11 +30,12 @@ namespace Persistence.Repository
         public async Task<local> GetDetalleLocal(Int64 id)
         {
             var db = _context.CreateConnection();
-            var sql = @"SELECT [id]
+            var sql = @"SELECT[id]
       ,[nombre]
       ,[direccion]
-      ,[fecharegistro]
       ,[formato]
+      ,[fecharegistro]
+      ,[fechaupdated]
       ,[estado]
   FROM [local]
                     where id=@id 
@@ -41,19 +43,35 @@ namespace Persistence.Repository
             return await db.QueryFirstOrDefaultAsync<local>(sql, new { id = id });
         }
 
-        public async Task<bool> CreateLocal(local envio)
+        public async Task<bool> CreateLocal(local local)
         {
             var db = _context.CreateConnection();
             var sql = @"INSERT INTO [local]
            ([nombre]
            ,[direccion]
-           ,[fecharegistro]
            ,[formato]
+           ,[fecharegistro]
            ,[estado])
      VALUES
-(@nombre,@direccion,@fecharegistro,@formato,@estado)";
+(@nombre,@direccion,@formato,@fecharegistro,@estado)";
             var result = await db.ExecuteAsync(
-                    sql, envio);
+                    sql, local);
+            return result > 0;
+        }
+
+        public async Task<bool> UpdateLocal(local local)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"UPDATE [local]
+            set nombre=@nombre
+           ,direccion=@direccion
+           ,formato=@formato
+           ,fechaupdated=@fechaupdated
+           ,estado  = @estado
+                where id=@id
+";
+            var result = await db.ExecuteAsync(
+                    sql, local);
             return result > 0;
         }
     }

@@ -38,5 +38,13 @@ namespace raspaditaAPi.Controllers
             ServiceResponse response = await _mediator.Send(command);
             return new OkObjectResult(new { response });
         }
+
+        [HttpPost("newScratch")]
+        public async Task<IActionResult> newScratch([FromBody] transaccionesNuevo transacciones)
+        {
+            var command = new CreateTransaccionCommand() { NewTransacciones = transacciones };
+            ServiceResponse response = await _mediator.Send(command);
+            return new OkObjectResult(new { response });
+        }
     }
 }

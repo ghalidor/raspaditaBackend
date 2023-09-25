@@ -9,7 +9,7 @@ namespace Domain
         public int jugada { get; set; }
         public bool premio { get; set; }
         public float importepremio { get; set; }
-        public float nroticket { get; set; }
+        public string nroticket { get; set; }
         public bool estadocobro { get; set; }
         public DateTime fechahorajugada { get; set; }
         public float saldoticketini { get; set; }       
@@ -26,7 +26,7 @@ namespace Domain
         public int jugada { get; set; }
         public bool premio { get; set; }
         public float importepremio { get; set; }
-        public float nroticket { get; set; }
+        public string nroticket { get; set; }
         public bool estadocobro { get; set; }
         public float saldoticketini { get; set; }
         public float saldoticketfin { get; set; }

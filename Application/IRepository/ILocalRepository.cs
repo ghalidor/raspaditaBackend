@@ -7,5 +7,6 @@ namespace Application.IRepository
         Task<IEnumerable<local>> GetLocal();
         Task<local> GetDetalleLocal(Int64 id);
         Task<bool> CreateLocal(local envio);
+        Task<bool> UpdateLocal(local local);
     }
 }

@@ -9,8 +9,9 @@ namespace Persistence
         public static void AddPersistence(this IServiceCollection services)
         {
             services.AddSingleton<DapperContext>();
-            services.AddScoped<IEnvioRepository, EnvioRepository>();
+            services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<ICajaRepository, CajaRepository>();
+            services.AddScoped<IAperturaRepository, AperturaRepository>();
             services.AddScoped<ILocalRepository, LocalRepository>();
             services.AddScoped<IPuntoJuegoRepository, PuntoJuegoRepository>();
             services.AddScoped<ITransaccionesRepository,TransaccionesRepository>();

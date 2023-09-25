@@ -23,6 +23,14 @@ namespace raspaditaAPi.Controllers
             return new OkObjectResult(new { message, data });
         }
 
+        [HttpGet("GetDetallePuntoJuego/{id}")]
+        public async Task<IActionResult> GetDetallePuntoJuego(Int64 id)
+        {
+            string message = "Lista PuntoJuego x local id";
+            var data = await _mediator.Send(new GetDetallePuntoJuegoQuery() { id = id });
+            return new OkObjectResult(new { message, data });
+        }
+
         [HttpGet("GetPuntoJuegoxLocal_id/{local_id}")]
         public async Task<IActionResult> GetPuntoJuegoxLocal_id(Int64 local_id)
         {
@@ -32,11 +40,20 @@ namespace raspaditaAPi.Controllers
         }
 
         [HttpPost("CreatePuntoJuego")]
-        public async Task<IActionResult> CreatePuntoJuego([FromBody] puntojuegoNuevo envio)
+        public async Task<IActionResult> CreatePuntoJuego([FromBody] puntojuegoNuevo puntojuego)
         {
-            var command = new CreatePuntoJuegoCommand() { NewPuntoJuego = envio };
+            var command = new CreatePuntoJuegoCommand() { NewPuntoJuego = puntojuego };
             ServiceResponse response = await _mediator.Send(command);
-            return new OkObjectResult(new { response });
+            return new OkObjectResult(response);
         }
+
+        [HttpPost("UpdatePuntoJuego")]
+        public async Task<IActionResult> UpdatePuntoJuego([FromBody] puntojuegoEditar puntojuego)
+        {
+            var command = new UpdatePuntoJuegoCommand() { EditPuntoJuego = puntojuego };
+            ServiceResponse response = await _mediator.Send(command);
+            return new OkObjectResult(response);
+        }
+        
     }
 }

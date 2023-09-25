@@ -36,7 +36,15 @@ namespace raspaditaAPi.Controllers
         {
             var command = new CreateLocalCommand() { NewLocal = local };
             ServiceResponse response = await _mediator.Send(command);
-            return new OkObjectResult(new { response });
+            return new OkObjectResult(response);
+        }
+
+        [HttpPost("UpdateLocal")]
+        public async Task<IActionResult> UpdateLocal([FromBody] localEditar local)
+        {
+            var command = new UpdateLocalCommand() { EditLocal = local };
+            ServiceResponse response = await _mediator.Send(command);
+            return new OkObjectResult(response);
         }
     }
 }

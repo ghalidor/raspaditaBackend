@@ -75,10 +75,9 @@ namespace Persistence.Repository
            ,[saldoticketfin]
            ,[comprobanteventa]
            ,[comprobantepagonro]
-           ,[fechacobro]
            ,[estadopago])
      VALUES
-(@caja_id,@puntojuego_id,@jugada,@premio,@importepremio,@nroticket,@estadocobro  ,@fechahorajugada,@saldoticketini,@saldoticketfin,@comprobanteventa,@comprobantepagonro,@fechacobro,@estadopago)";
+(@caja_id,@puntojuego_id,@jugada,@premio,@importepremio,@nroticket,@estadocobro  ,@fechahorajugada,@saldoticketini,@saldoticketfin,@comprobanteventa,@comprobantepagonro,@estadopago)";
             var result = await db.ExecuteAsync(
                     sql, transacciones);
             return result > 0;

@@ -6,17 +6,17 @@ using MediatR;
 
 namespace Application.Handlers.Caja_CommandsQueries
 {
-    public class CerrarCajaCommandhandler : IRequestHandler<CerrarCajaCommand, ServiceResponse>
+    public class UpdateCajaCommandHandler : IRequestHandler<UpdateCajaCommand, ServiceResponse>
     {
         private readonly ICajaRepository _cajaRepository;
-        public CerrarCajaCommandhandler(ICajaRepository cajaRepository)
+        public UpdateCajaCommandHandler(ICajaRepository cajaRepository)
         {
             _cajaRepository = cajaRepository;
         }
 
-        public async Task<ServiceResponse> Handle(CerrarCajaCommand request, CancellationToken cancellationToken)
+        public async Task<ServiceResponse> Handle(UpdateCajaCommand request, CancellationToken cancellationToken)
         {
-            if (request.id ==0)
+            if(request.EditCaja is null)
             {
                 throw new ApplicationException("There is a problem in mapper");
             }
@@ -24,21 +24,23 @@ namespace Application.Handlers.Caja_CommandsQueries
             try
             {
                 caja nuevo = new caja();
-                nuevo.estado = 1;
-                nuevo.fechacierre = DateTime.Now;
-                nuevo.usuario_id = 0;
-                bool respuesta = await _cajaRepository.CreateCaja(nuevo);
+                nuevo.id = request.EditCaja.id;
+                nuevo.estado = true;
+                nuevo.fechaupdated = DateTime.Now;
+                nuevo.local_id = request.EditCaja.local_id;
+                nuevo.nombre = request.EditCaja.nombre;
+                bool respuesta = await _cajaRepository.UpdateCaja(nuevo);
                 response.response = respuesta;
-                if (respuesta)
+                if(respuesta)
                 {
-                    response.message = "Se Cerró Corréctamente";
+                    response.message = "Se registró Corréctamente";
                 }
                 else
                 {
-                    response.message = "Error , no se pudo Cerrar";
+                    response.message = "Error , no se pudo registrar";
                 }
             }
-            catch (Exception exp)
+            catch(Exception exp)
             {
                 response.response = false;
                 response.message = "Error ," + exp.Message;

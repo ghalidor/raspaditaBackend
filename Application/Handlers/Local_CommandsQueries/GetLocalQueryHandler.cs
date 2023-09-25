@@ -2,6 +2,7 @@
 using Application.IRepository;
 using Domain;
 using MediatR;
+using System.Globalization;
 
 namespace Application.Handlers.Local_CommandsQueries
 {
@@ -14,8 +15,17 @@ namespace Application.Handlers.Local_CommandsQueries
         }
         public async Task<IEnumerable<local>> Handle(GetLocalQuery query, CancellationToken cancellationToken)
         {
-           
-            return await _localRepository.GetLocal();
+            List<local> lista = new List<local>();
+            var local = await _localRepository.GetLocal();
+            foreach (var item in local)
+            {
+                item.fecharegistro_string = item.fecharegistro.ToString() != "01/01/0001 0:00:00" ? item.fecharegistro.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
+                item.estado_string = item.estado == true ? "ACTIVO" :"INACTIVO";
+                item.clase = item.estado ? "success" : "danger";
+                lista.Add(item);
+            }
+
+            return lista;
         }
     }
 }

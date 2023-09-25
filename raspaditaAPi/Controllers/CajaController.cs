@@ -19,7 +19,15 @@ namespace raspaditaAPi.Controllers
         public async Task<IActionResult> GetCajas()
         {
             string message = "Lista Cajas";
-            var data = await _mediator.Send(new GetCajasQuery());
+           var data = await _mediator.Send(new GetCajasQuery());
+            return new OkObjectResult(new { message, data });
+        }
+
+        [HttpGet("GetDetalleCaja/{id}")]
+        public async Task<IActionResult> GetDetalleCaja(Int64 id)
+        {
+            string message = "Detalle Local";
+            var data = await _mediator.Send(new GetDetalleCajaQuery() { id = id });
             return new OkObjectResult(new { message, data });
         }
 
@@ -31,28 +39,20 @@ namespace raspaditaAPi.Controllers
             return new OkObjectResult(new { message, data });
         }
 
-        [HttpPost("AperturarCaja")]
-        public async Task<IActionResult> AperturarCaja()
-        {
-            var command = new AperturarCajaCommand() { };
-            ServiceResponse response = await _mediator.Send(command);
-            return new OkObjectResult(new { response });
-        }
-
         [HttpPost("CreateCaja")]
         public async Task<IActionResult> CreateCaja([FromBody] cajaNuevo caja)
         {
             var command = new CreateCajaCommand() { NewCaja = caja };
             ServiceResponse response = await _mediator.Send(command);
-            return new OkObjectResult(new { response });
+            return new OkObjectResult(response);
         }
 
-        [HttpPost("CerrarCaja")]
-        public async Task<IActionResult> CerrarCaja([FromBody] Int64 id)
+        [HttpPost("UpdateCaja")]
+        public async Task<IActionResult> UpdateCaja([FromBody] cajaEditar caja)
         {
-            var command = new CerrarCajaCommand() { id = id };
+            var command = new UpdateCajaCommand() { EditCaja = caja };
             ServiceResponse response = await _mediator.Send(command);
-            return new OkObjectResult(new { response });
+            return new OkObjectResult(response);
         }
     }
 }

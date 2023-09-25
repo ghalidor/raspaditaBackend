@@ -24,13 +24,10 @@ namespace Application.Handlers.Caja_CommandsQueries
             try
             {
                 caja nuevo = new caja();
-                nuevo.estado = 1;
+                nuevo.estado = true;
+                nuevo.fecharegistro=DateTime.Now;
                 nuevo.local_id = request.NewCaja.local_id;
-                nuevo.fechaoperacion = Convert.ToDateTime(request.NewCaja.fechaoperacion);
-                nuevo.fechaapertura = Convert.ToDateTime(request.NewCaja.fechaapertura);
-                nuevo.fechacierre = Convert.ToDateTime(request.NewCaja.fechacierre);
-                nuevo.nro_apertura = request.NewCaja.nro_apertura;
-                nuevo.usuario_id = request.NewCaja.usuario_id;
+                nuevo.nombre = request.NewCaja.nombre;
                 bool respuesta = await _cajaRepository.CreateCaja(nuevo);
                 response.response = respuesta;
                 if (respuesta)

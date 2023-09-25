@@ -20,6 +20,8 @@ namespace Persistence.Repository
       ,[local_id]
       ,[nro_punto]
       ,[ip]
+      ,[fecharegistro]
+      ,[fechaupdated]
       ,[estado]
   FROM [puntojuego]";
             return await db.QueryAsync<puntojuego>(sql);
@@ -32,11 +34,28 @@ namespace Persistence.Repository
       ,[local_id]
       ,[nro_punto]
       ,[ip]
+ ,[fecharegistro]
+      ,[fechaupdated]
       ,[estado]
   FROM [puntojuego]
                     where local_id=@local_id 
                     order by id asc";
             return await db.QueryAsync<puntojuego>(sql, new { local_id = local_id });
+        }
+
+        public async Task<puntojuego> GetPuntoJuegoDetalle(Int64 id)
+        {
+            var db = _context.CreateConnection();
+            var sql = @" SELECT [id]
+      ,[local_id]
+      ,[nro_punto]
+      ,[ip]
+ ,[fecharegistro]
+      ,[fechaupdated]
+      ,[estado]
+  FROM [puntojuego]
+                    where id=@id";
+            return await db.QueryFirstOrDefaultAsync<puntojuego>(sql, new { id = id });
         }
 
         public async Task<bool> CreatePuntoJuego(puntojuego puntojuego)
@@ -45,10 +64,26 @@ namespace Persistence.Repository
             var sql = @"INSERT INTO [puntojuego]
            ([local_id]
            ,[nro_punto]
+ ,[fecharegistro]
            ,[ip]
            ,[estado])
      VALUES
-(@local_id,@nro_punto,@ip,@estado)";
+(@local_id,@nro_punto,@fecharegistro,@ip,@estado)";
+            var result = await db.ExecuteAsync(
+                    sql, puntojuego);
+            return result > 0;
+        }
+
+        public async Task<bool> UpdatePuntoJuego(puntojuego puntojuego)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"UPDATE  puntojuego
+          set  local_id=@local_id
+           ,nro_punto=@nro_punto
+ ,fechaupdated=@fechaupdated
+           ,ip=@ip
+           ,estado=@estado
+            where id=@id";
             var result = await db.ExecuteAsync(
                     sql, puntojuego);
             return result > 0;
