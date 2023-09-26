@@ -41,9 +41,9 @@ FROM [rol]
         {
             var db = _context.CreateConnection();
             var sql = @"INSERT INTO [rol]
-           ([id],[nombre],[fecharegistro],[estado])
+           ([nombre],[fecharegistro],[estado])
      VALUES
-(@id,@nombre,@fecharegistro,@estado)";
+(@nombre,@fecharegistro,@estado)";
             var result = await db.ExecuteAsync(
                     sql, rol);
             return result > 0;

@@ -12,6 +12,44 @@ namespace Persistence.Repository
         {
             _context = context;
         }
+        public async Task<IEnumerable<usuario>> GetUsuarios()
+        {
+            var db = _context.CreateConnection();
+            var sql = @"SELECT usu.[id]
+      ,usu.[nombre]
+      ,usu.[password]
+      ,usulocal.id  usuariolocal_id
+      ,loc.id local_id
+      ,loc.nombre local_nombre
+	  ,rlu.id usuariorol_id
+	  ,rl.id
+	  ,rl.nombre rol_nombre
+      ,usu.[fecharegistro]
+      ,usu.[fechaupdated]
+      ,usu.[estado]
+FROM [usuario] usu
+left join usuariolocal usulocal on usulocal.usuario_id = usu.id
+left join local loc on loc.id = usulocal.local_id
+left join rolusuario rlu on rlu.usuario_id =  usu.id
+left join rol rl on rl.id = rlu.rol_id
+                    order by usu.id asc";
+            return await db.QueryAsync<usuario>(sql);
+        }
+
+        public async Task<usuario> GetDetalleUsuario(Int64 id)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"SELECT [id]
+      ,[nombre]
+      ,[password]
+      ,[fecharegistro]
+      ,[fechaupdated]
+      ,[estado]
+  FROM [usuario]
+                    where id=@id 
+                    order by id asc";
+            return await db.QueryFirstOrDefaultAsync<usuario>(sql, new { id = id });
+        }
 
         public async Task<IEnumerable<usuarioLocal>> GetUsuarioLocal(Int64 local_id)
         {
@@ -62,6 +100,19 @@ left join caja caj on caj.id = cajausuario.caja_id
         (@nombre,@password,@fecharegistro,@estado) SELECT SCOPE_IDENTITY()";
             var result = await db.QueryAsync<Int64>(sql, usuario);
             return result.Single();
+        }
+
+        public async Task<bool> UpdateUsuario(usuario usuario)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"UPDATE  usuario
+           set local_id=@local_id
+           ,nombre=@nombre
+           ,fechaupdated =@fechaupdated
+           ,estado=@estado where id=@id";
+            var result = await db.ExecuteAsync(
+                    sql, usuario);
+            return result > 0;
         }
 
         public async Task<bool> CreateUsuarioCaja(usuarioCaja caja)
