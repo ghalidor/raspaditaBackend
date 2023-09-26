@@ -27,9 +27,19 @@ namespace Application.Handlers.Usuario_CommandsQueries
                 nuevo.estado = request.EditUsuario.estado;
                 nuevo.fechaupdated = DateTime.Now;
                 nuevo.nombre = request.EditUsuario.nombre;
+                nuevo.id =request.EditUsuario.id;
                 bool respuesta = await _usuarioRepository.UpdateUsuario(nuevo);
+                usuarioLocal ulocal = new usuarioLocal();
+                ulocal.usuariolocal_id = request.EditUsuario.usuariolocal_id;
+                ulocal.local_id = request.EditUsuario.local_id;
+                bool respuestalocal = await _usuarioRepository.UpdateUsuarioLocal(ulocal);
 
-                if(respuesta)
+                usuarioRol urol = new usuarioRol();
+                urol.usuariorol_id = request.EditUsuario.usuariorol_id;
+                urol.rol_id = request.EditUsuario.rol_id;
+                bool respuestarol = await _usuarioRepository.UpdateUsuarioRol(urol);
+
+                if (respuesta)
                 {
                     response.response = true;
                     response.message = "Se registró Corréctamente";

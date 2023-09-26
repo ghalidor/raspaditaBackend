@@ -31,6 +31,14 @@ namespace raspaditaAPi.Controllers
             return new OkObjectResult(new { message, data });
         }
 
+        [HttpGet("GetUsuariosxLocal_id/{local_id}")]
+        public async Task<IActionResult> GetUsuariosxLocal_id(Int64 local_id)
+        {
+            string message = "Usuarios x Local";
+            var data = await _mediator.Send(new GetUsuariosxLocal_idQuery() { local_id = local_id });
+            return new OkObjectResult(new { message, data });
+        }
+
         [HttpPost("CreateUsuario")]
         public async Task<IActionResult> CreateUsuario([FromBody] usuarioNuevo usuario)
         {
