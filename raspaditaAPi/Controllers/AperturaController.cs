@@ -39,5 +39,13 @@ namespace raspaditaAPi.Controllers
             ServiceResponse response = await _mediator.Send(command);
             return new OkObjectResult(response);
         }
+
+        [HttpPost("AnularApertura")]
+        public async Task<IActionResult> AnularApertura(aperturaCerrar apertura)
+        {
+            var command = new AnularAperturaCommand() { apertura = apertura };
+            ServiceResponse response = await _mediator.Send(command);
+            return new OkObjectResult(response);
+        }
     }
 }

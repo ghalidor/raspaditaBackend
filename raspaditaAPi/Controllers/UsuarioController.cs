@@ -70,5 +70,13 @@ namespace raspaditaAPi.Controllers
             ServiceResponse response = await _mediator.Send(command);
             return new OkObjectResult(response);
         }
+
+        [HttpPost("LoginUsuario")]
+        public async Task<IActionResult> LoginUsuario([FromBody] usuarioLogin usuario)
+        {
+            var command = new LoginUsuarioQuery() { login = usuario };
+            usuarioResponse response = await _mediator.Send(command);
+            return new OkObjectResult(response);
+        }
     }
 }

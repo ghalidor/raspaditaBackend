@@ -14,6 +14,7 @@ namespace Domain
         public string fechaupdated_string { get; set; }
         public bool estado { get; set; }
         public string estado_string { get; set; }
+        public Int64 posicion { get; set; }
         public string clase { get; set; }
     }
 

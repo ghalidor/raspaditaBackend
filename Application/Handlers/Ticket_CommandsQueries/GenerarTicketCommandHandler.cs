@@ -62,9 +62,9 @@ namespace Application.Handlers.Ticket_CommandsQueries
                     registro.fechahorajugada = DateTime.Now;
                     registro.saldoticketini = request.NewTicket.monto;
                     registro.saldoticketfin = request.NewTicket.monto;
-                    registro.commprobanteventa = nro;
+                    registro.comprobanteventa = nro;
                     registro.estadopago = false;
-                    var trans = _transaccionesRepository.CreateTransaccion(registro);
+                    var trans = await _transaccionesRepository.CreateTransaccion(registro);
 
 
                     response.ticket = nuevoticket;

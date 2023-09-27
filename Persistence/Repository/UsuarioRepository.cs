@@ -12,6 +12,7 @@ namespace Persistence.Repository
         {
             _context = context;
         }
+
         public async Task<IEnumerable<usuario>> GetUsuarios()
         {
             var db = _context.CreateConnection();
@@ -105,6 +106,35 @@ left join rol rl on rl.id = rlu.rol_id
             return await db.QueryFirstOrDefaultAsync<usuario>(sql, new { id = id });
         }
 
+        public async Task<usuario> GetDetalleUsuarioNombre(string nombre)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"SELECT usu.[id]
+      ,usu.[nombre]
+      ,usu.[password]
+      ,usulocal.id  usuariolocal_id
+      ,loc.id local_id
+      ,loc.nombre local_nombre
+,cajausu.id usuariocaja_id
+,cajausu.caja_id caja_id
+      ,caj.nombre caja_nombre
+	  ,rlu.id usuariorol_id
+	  ,rl.id rol_id
+	  ,rl.nombre rol_nombre
+      ,usu.[fecharegistro]
+      ,usu.[fechaupdated]
+      ,usu.[estado]
+FROM [usuario] usu
+left join usuariolocal usulocal on usulocal.usuario_id = usu.id
+left join local loc on loc.id = usulocal.local_id
+left join rolusuario rlu on rlu.usuario_id =  usu.id
+left join rol rl on rl.id = rlu.rol_id
+left join cajausuario cajausu on cajausu.usuario_id = usu.id
+left join caja caj on caj.id = cajausu.caja_id
+                    where usu.nombre=@nombre";
+            return await db.QueryFirstOrDefaultAsync<usuario>(sql, new { nombre = nombre });
+        }
+
         public async Task<usuario> GetDetalleUsuarioxNombre(string nombre)
         {
             var db = _context.CreateConnection();
@@ -131,7 +161,6 @@ left join rol rl on rl.id = rlu.rol_id
          FROM  cajausuario   where caja_id=@caja_id and usuario_id=@usuario_id";
             return await db.QueryFirstOrDefaultAsync<usuario>(sql, new { caja_id = caja_id, usuario_id= usuario_id });
         }
-
 
         public async Task<Int64> CreateUsuario(usuario usuario)
         {

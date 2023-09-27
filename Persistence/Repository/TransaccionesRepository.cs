@@ -63,19 +63,7 @@ namespace Persistence.Repository
         {
             var db = _context.CreateConnection();
             var sql = @"INSERT INTO [transacciones]
-           ([caja_id]
-           ,[puntojuego_id]
-           ,[jugada]
-           ,[premio]
-           ,[importepremio]
-           ,[nroticket]
-           ,[estadocobro]
-           ,[fechahorajugada]
-           ,[saldoticketini]
-           ,[saldoticketfin]
-           ,[comprobanteventa]
-           ,[comprobantepagonro]
-           ,[estadopago])
+ ([caja_id],[puntojuego_id],[jugada],[premio],[importepremio],[nroticket],[estadocobro],[fechahorajugada],[saldoticketini],[saldoticketfin],[comprobanteventa],[comprobantepagonro],[estadopago])
      VALUES
 (@caja_id,@puntojuego_id,@jugada,@premio,@importepremio,@nroticket,@estadocobro  ,@fechahorajugada,@saldoticketini,@saldoticketfin,@comprobanteventa,@comprobantepagonro,@estadopago)";
             var result = await db.ExecuteAsync(

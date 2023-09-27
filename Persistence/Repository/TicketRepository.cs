@@ -62,11 +62,26 @@ namespace Persistence.Repository
 left join puntojuego pj on pj.id=t.puntojuego_id
 left join local l on l.id = pj.local_id
 left join caja c on c.local_id=pj.local_id 
+where c.id=@caja_id 
                     order by t.id asc";
-            return await db.QueryAsync<ticket>(sql, new { puntojuego_id = caja_id });
+            return await db.QueryAsync<ticket>(sql, new { caja_id = caja_id });
         }
 
         public async Task<ticket> GetTicketxid(Int64 id)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"SELECT [id]
+      ,[nroticket]
+      ,[puntojuego_id]
+      ,[credito]
+      ,[monto]
+      ,[fecharegistro]
+      ,[estado]
+  FROM [ticket] where id=@id";
+            return await db.QueryFirstOrDefaultAsync<ticket>(sql, new { id = id });
+        }
+
+        public async Task<ticket> GetTicketSaldoxticket_id(Int64 id)
         {
             var db = _context.CreateConnection();
             var sql = @"SELECT [id]

@@ -21,7 +21,7 @@ namespace Application.Handlers.Rol_CommandsQueries
             var roles = await _rolRepository.GetRol();
             foreach(var item in roles)
             {
-                item.fecharegistro_string = item.fecharegistro.ToString() != "01/01/0001 0:00:00" ? item.fecharegistro.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
+                item.fecharegistro_string = item.fecharegistro.ToString("dd-MM-yyyy") != "01-01-0001" ? item.fecharegistro.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
                 item.estado_string = item.estado ? "ACTIVO" : "INACTIVO";
                 item.clase = item.estado ? "success" : "danger";
                 lista.Add(item);

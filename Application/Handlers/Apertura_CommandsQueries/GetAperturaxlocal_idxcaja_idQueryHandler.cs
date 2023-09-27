@@ -41,9 +41,10 @@ namespace Application.Handlers.Apertura_CommandsQueries
                 var aperturas = await _aperturaRepository.GetAperturaxlocal_idxfechahoy(request.local_id, request.caja_id, fechahoy);
                 foreach(var item in aperturas)
                 {
-                    item.fechaoperacion_string = item.fechaoperacion.ToString() != "01/01/0001 0:00:00" ? item.fechaoperacion.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture) : "----";
-                    item.fechaapertura_string = item.fechaapertura.ToString() != "01/01/0001 0:00:00" ? item.fechaapertura.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
-                    item.fechacierre_string = item.fechacierre.ToString() != "01/01/0001 0:00:00" ? item.fechacierre.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";                  
+                    string fecha = item.fechacierre.ToString("dd-MM-yyyy");
+                    item.fechaoperacion_string = item.fechaoperacion.ToString("dd-MM-yyyy") != "01-01-0001" ? item.fechaoperacion.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture) : "----";
+                    item.fechaapertura_string = item.fechaapertura.ToString("dd-MM-yyyy") != "01-01-0001" ? item.fechaapertura.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
+                    item.fechacierre_string = item.fechacierre.ToString("dd-MM-yyyy") != "01-01-0001" ? item.fechacierre.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";                  
                     item.usuario_nombre = "prueba";
                     item.estado_string = item.estado == 1 ? "ABIERTO" : item.estado == 2 ? "CERRADO" : "ANULADO";
                     item.clase = item.estado ==1? "success" : "danger";

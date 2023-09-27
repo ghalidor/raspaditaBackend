@@ -14,8 +14,8 @@ namespace Domain
         public DateTime fechahorajugada { get; set; }
         public float saldoticketini { get; set; }       
         public float saldoticketfin { get; set; }
-        public string commprobanteventa { get; set; }
-        public string commprobantepagonro { get; set; }
+        public string comprobanteventa { get; set; }
+        public string comprobantepagonro { get; set; }
         public DateTime fechacobro { get; set; }
         public bool estadopago { get; set; }
     }
@@ -30,8 +30,8 @@ namespace Domain
         public bool estadocobro { get; set; }
         public float saldoticketini { get; set; }
         public float saldoticketfin { get; set; }
-        public string commprobanteventa { get; set; }
-        public string commprobantepagonro { get; set; }
+        public string comprobanteventa { get; set; }
+        public string comprobantepagonro { get; set; }
         public DateTime fechacobro { get; set; }
         public bool estadopago { get; set; }
     }

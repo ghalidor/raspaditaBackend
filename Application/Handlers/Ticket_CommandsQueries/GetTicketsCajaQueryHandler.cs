@@ -22,8 +22,8 @@ namespace Application.Handlers.Ticket_CommandsQueries
             var tickets = await _ticketRepository.GetTicketsxCaja_id(query.caja_id);
             foreach(var item in tickets)
             {
-                item.fecharegistro_string = item.fecharegistro.ToString() != "01/01/0001 0:00:00" ? item.fecharegistro.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
-                item.fechaupdated_string = item.fechaupdated.ToString() != "01/01/0001 0:00:00" ? item.fechaupdated.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
+                item.fecharegistro_string = item.fecharegistro.ToString("dd-MM-yyyy") != "01-01-0001" ? item.fecharegistro.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
+                item.fechaupdated_string = item.fechaupdated.ToString("dd-MM-yyyy") != "01-01-0001" ? item.fechaupdated.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
                 item.estado_string = item.estado ? "ACTIVO" : "ANULADO";
                 item.clase = item.estado ? "success" : "danger";
                 lista.Add(item);

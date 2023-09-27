@@ -12,8 +12,12 @@ namespace Domain
         public string nombre { get; set; }
         public Int64 id { get; set; }
         public Int64 caja_id { get; set; }
+        public string caja_nombre { get; set; }
         public Int64 local_id { get; set; }
+        public string local_nombre { get; set; }
         public string token { get; set; }
+        public bool response { get; set; }
+        public string message { get; set; }
     }
 
     public class usuario

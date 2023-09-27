@@ -32,9 +32,9 @@ namespace Application.Handlers.Apertura_CommandsQueries
             {
                 DateTime fechaHoy = DateTime.Now;
                 caja cajaDetalle = await _cajaRepository.GetDetalleCaja(request.caja_id);
-                IEnumerable<apertura> aperturasActivas = await _aperturaRepository.GetAperturaxlocal_idxfechahoy(request.local_id,request.caja_id,fechaHoy);
+                IEnumerable<apertura> aperturasListaHoy = await _aperturaRepository.GetAperturaxlocal_idxfechahoy(request.local_id,request.caja_id,fechaHoy);
                 apertura nuevo = new apertura();
-                if(!aperturasActivas.Any())
+                if(!aperturasListaHoy.Any())
                 {
                     nuevo.estado = 1;
                     nuevo.local_id = request.local_id;
@@ -58,44 +58,80 @@ namespace Application.Handlers.Apertura_CommandsQueries
                 }
                 else
                 {
-                    int cantidadCajas = aperturasActivas.Count();
-                    if(cantidadCajas == 3)
+                    int cantidadCajasTotal = aperturasListaHoy.Count();
+                    int anuladas = aperturasListaHoy.Where(z => z.estado == 3).Count();
+                    int activas = aperturasListaHoy.Where(z => z.estado == 1).Count();
+                    if (activas > 0)
                     {
                         response.response = false;
-                        response.message = "Error , No se puede aperturar ,Ya existen 3 aperturas en la caja "+ cajaDetalle.nombre;
+                        response.message = "Error , No se puede aperturar ,hay un registro de apertura abierto en la caja " + cajaDetalle.nombre;
                     }
                     else
                     {
-                        int activas = aperturasActivas.Where(z=>z.estado==1).Count();
-                        if(activas > 0){
-                            response.response = false;
-                            response.message = "Error , No se puede aperturar ,hay un registro de apertura abierto en la caja" + cajaDetalle.nombre;
-                        }
-                        else
+                        if(anuladas > 0)
                         {
-                            cantidadCajas = cantidadCajas + 1;
-                            nuevo.estado = 1;
-                            nuevo.local_id = request.local_id;
-                            nuevo.caja_id = request.caja_id;
-                            nuevo.fechaoperacion = fechaHoy;
-                            nuevo.fechaapertura = DateTime.Now;
-                            nuevo.nro_apertura = cantidadCajas;
-                            nuevo.usuario_id = 1;
-                            bool respuesta = await _aperturaRepository.CreateApertura(nuevo);
-                            response.response = respuesta;
-                            if(respuesta)
+                            if ((cantidadCajasTotal-anuladas) == 3)
                             {
-                                response.response = true;
-                                response.message = "Se Aperturó caja Corréctamente";
+                                response.response = false;
+                                response.message = "Error , No se puede aperturar ,Ya existen 3 aperturas en la caja " + cajaDetalle.nombre;
                             }
                             else
                             {
-                                response.response = false;
-                                response.message = "Error , no se pudo aperturar";
+                                cantidadCajasTotal = cantidadCajasTotal + 1;
+                                nuevo.estado = 1;
+                                nuevo.local_id = request.local_id;
+                                nuevo.caja_id = request.caja_id;
+                                nuevo.fechaoperacion = fechaHoy;
+                                nuevo.fechaapertura = DateTime.Now;
+                                nuevo.nro_apertura = cantidadCajasTotal;
+                                nuevo.usuario_id = 1;
+                                bool respuesta = await _aperturaRepository.CreateApertura(nuevo);
+                                response.response = respuesta;
+                                if (respuesta)
+                                {
+                                    response.response = true;
+                                    response.message = "Se Aperturó caja Corréctamente";
+                                }
+                                else
+                                {
+                                    response.response = false;
+                                    response.message = "Error , no se pudo aperturar";
+                                }
                             }
                         }
-                        
+                        else
+                        {
+                            if (cantidadCajasTotal == 3)
+                            {
+                                response.response = false;
+                                response.message = "Error , No se puede aperturar ,Ya existen 3 aperturas en la caja " + cajaDetalle.nombre;
+                            }
+                            else
+                            {
+                                cantidadCajasTotal = cantidadCajasTotal + 1;
+                                nuevo.estado = 1;
+                                nuevo.local_id = request.local_id;
+                                nuevo.caja_id = request.caja_id;
+                                nuevo.fechaoperacion = fechaHoy;
+                                nuevo.fechaapertura = DateTime.Now;
+                                nuevo.nro_apertura = cantidadCajasTotal;
+                                nuevo.usuario_id = 1;
+                                bool respuesta = await _aperturaRepository.CreateApertura(nuevo);
+                                response.response = respuesta;
+                                if (respuesta)
+                                {
+                                    response.response = true;
+                                    response.message = "Se Aperturó caja Corréctamente";
+                                }
+                                else
+                                {
+                                    response.response = false;
+                                    response.message = "Error , no se pudo aperturar";
+                                }
+                            }
+                        }
                     }
+
                 }
 
             }

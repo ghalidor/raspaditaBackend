@@ -32,8 +32,8 @@ public class GetUsuarioxCaja_idTodosQueryHandler : IRequestHandler<GetUsuarioxCa
             registro.usuariorol_id = item.usuariorol_id;
             registro.rol_id = item.rol_id;
             registro.rol_nombre=item.rol_nombre;
-            registro.fecharegistro_string = item.fecharegistro.ToString() != "01/01/0001 0:00:00" ? item.fecharegistro.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
-            registro.fechaupdated_string = item.fechaupdated.ToString() != "01/01/0001 0:00:00" ? item.fechaupdated.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
+            registro.fecharegistro_string = item.fecharegistro.ToString("dd-MM-yyyy") != "01-01-0001" ? item.fecharegistro.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
+            registro.fechaupdated_string = item.fechaupdated.ToString("dd-MM-yyyy") != "01-01-0001" ? item.fechaupdated.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
             registro.estado=item.estado;
             registro.estado_string = item.estado ? "ACTIVO" : "INACTIVO";
             registro.clase = item.estado ? "success" : "danger";
