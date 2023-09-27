@@ -10,10 +10,12 @@ namespace Application.IRepository
         Task<IEnumerable<usuarioCaja>> GetUsuarioCaja(Int64 caja_id);
         Task<usuario> GetDetalleUsuario(Int64 id);
         Task<usuario> GetDetalleUsuarioxNombre(string nombre);
+        Task<usuario> GetDetalleUsuarioCaja(Int64 caja_id, Int64 usuario_id);
         Task<Int64> CreateUsuario(usuario usuario);
         Task<bool> UpdateUsuario(usuario usuario);
         Task<bool> UpdateUsuarioCaja(usuarioCaja usuario);
-        Task<bool> CreateUsuarioCaja(usuarioCaja caja);
+        Task<bool> DelteUsuarioCaja(Int64 id);
+        Task<bool> CreateUsuarioCaja(usuarioCajaNuevo_ caja);
         Task<bool> UpdateUsuarioLocal(usuarioLocal usuario);
         Task<bool> CreateUsuarioLocal(usuarioLocal caja);
         Task<bool> UpdateUsuarioRol(usuarioRol usuario);

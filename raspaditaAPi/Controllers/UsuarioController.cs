@@ -39,6 +39,14 @@ namespace raspaditaAPi.Controllers
             return new OkObjectResult(new { message, data });
         }
 
+        [HttpGet("GetUsuarioxCaja_idTodosQuery/{local_id}/{caja_id}")]
+        public async Task<IActionResult> GetUsuarioxCaja_idTodosQuery(Int64 local_id, Int64 caja_id)
+        {
+            string message = "Usuarios x Local";
+            var data = await _mediator.Send(new GetUsuarioxCaja_idTodosQuery() { local_id=local_id, caja_id = caja_id });
+            return new OkObjectResult(new { message, data });
+        }
+
         [HttpPost("CreateUsuario")]
         public async Task<IActionResult> CreateUsuario([FromBody] usuarioNuevo usuario)
         {
@@ -51,6 +59,14 @@ namespace raspaditaAPi.Controllers
         public async Task<IActionResult> UpdateUsuario([FromBody] usuarioEditar usuario)
         {
             var command = new UpdateUsuarioCommand() { EditUsuario = usuario };
+            ServiceResponse response = await _mediator.Send(command);
+            return new OkObjectResult(response);
+        }
+
+        [HttpPost("CreateUsuarioCaja")]
+        public async Task<IActionResult> CreateUsuarioCaja([FromBody] usuarioCajaNuevo usuario)
+        {
+            var command = new CreateUsuarioCajaCommand() { NewUsuario = usuario };
             ServiceResponse response = await _mediator.Send(command);
             return new OkObjectResult(response);
         }

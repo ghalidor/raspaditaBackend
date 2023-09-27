@@ -37,7 +37,7 @@ public class GetUsuarioxCaja_idTodosQueryHandler : IRequestHandler<GetUsuarioxCa
             registro.estado=item.estado;
             registro.estado_string = item.estado ? "ACTIVO" : "INACTIVO";
             registro.clase = item.estado ? "success" : "danger";
-            registro.check = usuariocaja.Where(x => x.usuario_id == item.id).Any()?"checked":"";
+            registro.check = usuariocaja.Where(x => x.id == item.id).Any()?true:false;
             lista.Add(registro);
         }
         return lista;

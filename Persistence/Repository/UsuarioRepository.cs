@@ -56,7 +56,7 @@ left join usuariolocal usulocal on usulocal.usuario_id = usu.id
 left join local loc on loc.id = usulocal.local_id
 left join rolusuario rlu on rlu.usuario_id =  usu.id
 left join rol rl on rl.id = rlu.rol_id
-                    where usulocal.id=@local_id 
+                    where loc.id=@local_id 
                     order by usu.id asc";
             return await db.QueryAsync<usuario>(sql, new { local_id = local_id });
         }
@@ -75,8 +75,8 @@ left join rol rl on rl.id = rlu.rol_id
       ,usu.[estado]
 FROM [usuario] usu
 left join cajausuario cajausu on cajausu.usuario_id = usu.id
-left join caja caj on caj.id = cajausuario.caja_id
-                    where cajausu.id=@caja_id 
+left join caja caj on caj.id = cajausu.caja_id
+                    where caj.id=@caja_id 
                     order by usu.id asc";
             return await db.QueryAsync<usuarioCaja>(sql, new { caja_id = caja_id });
         }
@@ -120,6 +120,19 @@ left join rol rl on rl.id = rlu.rol_id
             return await db.QueryFirstOrDefaultAsync<usuario>(sql, new { nombre = nombre });
         }
 
+        public async Task<usuario> GetDetalleUsuarioCaja(Int64 caja_id,Int64 usuario_id)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"SELECT [id]
+      ,[usuario_id]
+      ,[caja_id]
+      ,[fecharegistro]
+      ,[estado]
+         FROM  cajausuario   where caja_id=@caja_id and usuario_id=@usuario_id";
+            return await db.QueryFirstOrDefaultAsync<usuario>(sql, new { caja_id = caja_id, usuario_id= usuario_id });
+        }
+
+
         public async Task<Int64> CreateUsuario(usuario usuario)
         {
             var db = _context.CreateConnection();
@@ -144,7 +157,7 @@ left join rol rl on rl.id = rlu.rol_id
             return result > 0;
         }
        
-        public async Task<bool> CreateUsuarioCaja(usuarioCaja caja)
+        public async Task<bool> CreateUsuarioCaja(usuarioCajaNuevo_ caja)
         {
             var db = _context.CreateConnection();
             var sql = @"INSERT INTO [cajausuario]
@@ -164,6 +177,15 @@ left join rol rl on rl.id = rlu.rol_id
            ,usuario_id=@usuario_id where id=@usuariocaja_id";
             var result = await db.ExecuteAsync(
                     sql, usuario);
+            return result > 0;
+        }
+
+        public async Task<bool> DelteUsuarioCaja(Int64 id)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"delete from  cajausuario  where id=@id";
+            var result = await db.ExecuteAsync(
+                    sql, new {id=id});
             return result > 0;
         }
 
