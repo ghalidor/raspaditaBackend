@@ -84,14 +84,24 @@ where c.id=@caja_id
         public async Task<ticket> GetTicketSaldoxticket_id(Int64 id)
         {
             var db = _context.CreateConnection();
-            var sql = @"SELECT [id]
-      ,[nroticket]
-      ,[puntojuego_id]
-      ,[credito]
-      ,[monto]
-      ,[fecharegistro]
-      ,[estado]
-  FROM [ticket] where id=@id";
+            var sql = @"
+SELECT top 1 t.[id]
+      , t.[nroticket]
+      , t.[puntojuego_id]
+      , t.[credito]
+      , t.[monto]
+      , t.[fecharegistro]
+      , t.[estado]
+	  ,tr.comprobantepagonro
+	  ,tr.caja_id
+	  ,tr.saldoticketini
+	  ,tr.saldoticketfin
+	  ,tr.estadopago
+	  ,tr.fechacobro
+  FROM [ticket] t 
+  left join transacciones tr on tr.nroticket=t.nroticket
+  where t.id=@id
+  order by tr.id desc";
             return await db.QueryFirstOrDefaultAsync<ticket>(sql, new { id = id });
         }
 
