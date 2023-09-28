@@ -23,9 +23,9 @@ namespace Application.Handlers.Ticket_CommandsQueries
             foreach(var item in tickets)
             {
                 item.fecharegistro_string = item.fecharegistro.ToString("dd-MM-yyyy") != "01-01-0001" ? item.fecharegistro.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
-                item.fechaupdated_string = item.fechaupdated.ToString("dd-MM-yyyy") != "01-01-0001" ? item.fechaupdated.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
-                item.estado_string = item.estado ? "ACTIVO" : "ANULADO";
-                item.clase = item.estado ? "success" : "danger";
+                item.fechacobro_string = item.fechacobro.ToString("dd-MM-yyyy") != "01-01-0001" ? item.fechacobro.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
+                item.estado_string = item.estado ? "ACTIVO" : "PAGADO";
+                item.clase = item.estado ? "success" : "warning";
                 lista.Add(item);
             }
             return lista;

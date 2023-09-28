@@ -70,5 +70,19 @@ namespace Persistence.Repository
                     sql, transacciones);
             return result > 0;
         }
+        public async Task<bool> UpdateTransaccionPago(transacciones transacciones)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"UPDATE transacciones
+                                SET
+                                    estadocobro=@estadocobro
+                                    ,comprobantepagonro=@comprobantepagonro
+                                    ,fechacobro=@fechacobro
+                                    ,estadopago=@estadopago
+                                     where id=@id";
+            var result = await db.ExecuteAsync(
+                    sql, transacciones);
+            return result > 0;
+        }
     }
 }

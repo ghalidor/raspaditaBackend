@@ -81,17 +81,32 @@ where c.id=@caja_id
             return await db.QueryFirstOrDefaultAsync<ticket>(sql, new { id = id });
         }
 
-        public async Task<ticket> GetTicketSaldoxticket_id(Int64 id)
+        public async Task<ticket> GetTicketxnroticket(string nroticket)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"SELECT [id]
+      ,[nroticket]
+      ,[puntojuego_id]
+      ,[credito]
+      ,[monto]
+      ,[fecharegistro]
+      ,[estado]
+  FROM [ticket] where nroticket=@nroticket";
+            return await db.QueryFirstOrDefaultAsync<ticket>(sql, new { nroticket = nroticket });
+        }
+
+        public async Task<tickettransaccion> GetTicketSaldoxticket_id(Int64 id)
         {
             var db = _context.CreateConnection();
             var sql = @"
-SELECT top 1 t.[id]
+SELECT top 1 t.[id] ticket_id
       , t.[nroticket]
       , t.[puntojuego_id]
       , t.[credito]
       , t.[monto]
       , t.[fecharegistro]
       , t.[estado]
+        ,tr.id transaccion_id
 	  ,tr.comprobantepagonro
 	  ,tr.caja_id
 	  ,tr.saldoticketini
@@ -102,7 +117,7 @@ SELECT top 1 t.[id]
   left join transacciones tr on tr.nroticket=t.nroticket
   where t.id=@id
   order by tr.id desc";
-            return await db.QueryFirstOrDefaultAsync<ticket>(sql, new { id = id });
+            return await db.QueryFirstOrDefaultAsync<tickettransaccion>(sql, new { id = id });
         }
 
         public async Task<Int64> CreateTicket(ticket ticket)
@@ -133,11 +148,46 @@ SELECT top 1 t.[id]
             var db = _context.CreateConnection();
             var sql = @"UPDATE ticket
                                 SET
-                                    nroticket=@nroticket,
                                     estado = @estado where id=@id";
             var result = await db.ExecuteAsync(
                     sql, ticket);
             return result > 0;
+        }
+
+        public async Task<Int64> Createticketpago(createticketPago ticket)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"INSERT INTO [ticketpago]
+           ([usuario_id],[caja_id],[ticket_id],[nroticket],[monto],[fecharegistro])
+     VALUES
+(@usuario_id,@caja_id,@ticket_id,@nroticket,@monto,@fecharegistro) SELECT SCOPE_IDENTITY()";
+            var result = await db.QueryAsync<Int64>(sql, ticket);
+            return result.Single();
+        }
+
+        public async Task<bool> UpdateTicketPago_nro(Int64 id, string nroticket)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"UPDATE ticketpago
+                                SET
+                                    nroticket=@nroticket
+                                     where id=@id";
+            var result = await db.ExecuteAsync(
+                    sql, new { id = id, nroticket = nroticket });
+            return result > 0;
+        }
+
+        public async Task<ticketPagoDetalle> GetTicketPagoxid(Int64 id)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"SELECT [id]
+      ,[caja_id]
+      ,[ticket_id]
+      ,[nroticket]
+      ,[monto]
+      ,[fecharegistro]
+  FROM [ticketpago] where id=@id";
+            return await db.QueryFirstOrDefaultAsync<ticketPagoDetalle>(sql, new { id = id });
         }
     }
 }

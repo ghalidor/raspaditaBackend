@@ -33,5 +33,30 @@ namespace raspaditaAPi.Controllers
             ServiceResponseTicket response = await _mediator.Send(command);
             return new OkObjectResult(response);
         }
+
+        [HttpPost("PagarSaldoTicket")]
+        public async Task<IActionResult> PagarSaldoTicket([FromBody] string ticket)
+        {
+            var command = new PagarSaldoTicketCommand() { nroticket = ticket };
+            ServiceResponseTicket response = await _mediator.Send(command);
+            return new OkObjectResult(response);
+        }
+
+        [HttpPost("SaldoTicket")]
+        public async Task<IActionResult> SaldoTicket([FromBody] Int64 ticket_id)
+        {
+            var command = new SaldoTicketQuery() { ticket_id = ticket_id };
+            ticketSaldo response = await _mediator.Send(command);
+            return new OkObjectResult(response);
+        }
+
+
+        [HttpPost("PagoTicket")]
+        public async Task<IActionResult> PagoTicket([FromBody] ticketPagar ticket)
+        {
+            var command = new PagarSaldoTicketCommand() { caja_id = ticket.caja_id,nroticket=ticket.nroticket };
+            ServiceResponseTicket response = await _mediator.Send(command);
+            return new OkObjectResult(response);
+        }
     }
 }
