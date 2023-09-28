@@ -22,10 +22,25 @@ namespace Application.Handlers.Scratch_CommandsQueries
             {
                 throw new ApplicationException("There is a problem in mapper");
             }
+
+            Int64 total = await _scratchRepository.GetCount();
+
             Scratch_new nuevo = new Scratch_new();
-            Int64 posicion = query.indice;
+            var puntojuego = await _puntoJuegoRepository.GetPuntoJuegoDetallexIp(query.ip);
+            Int64 posicion = puntojuego.posicion;
+            posicion = posicion + 1;
+
+            await _puntoJuegoRepository.UpdatePuntoJuegoPosicion(puntojuego.id, posicion);
+
             var tp = await _scratchRepository.GetTp();
-            var matrix = await _scratchRepository.GetMatrixPosicion(1);
+            var matrix = await _scratchRepository.GetMatrixPosicion(posicion);
+
+
+            if(total == posicion)
+            {
+                await _puntoJuegoRepository.UpdatePuntoJuegoPosicion(puntojuego.id, 0);
+            }
+
             nuevo.TP = tp.Select(z => z.tp_value).ToArray();
             nuevo.montoPremiado = matrix.montoPremiado;
             nuevo.simPrem = matrix.simPrem;

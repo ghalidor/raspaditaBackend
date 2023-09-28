@@ -1,6 +1,7 @@
 ﻿using Application.IRepository;
 using Dapper;
 using Domain;
+using Newtonsoft.Json;
 
 namespace Persistence.Repository
 {
@@ -44,5 +45,38 @@ SELECT tp_value
   FROM [MF_TP]";
             return await db.QueryAsync<Scratch_Tp>(sql);
         }
+
+        public async Task<Int64> GetCount()
+        {
+            var db = _context.CreateConnectionScratch();
+            var sql = @"select COUNT(Id) from MF_Matrix";
+            return await db.QueryFirstOrDefaultAsync<Int64>(sql);
+        }
+
+        public async Task<Scratch_codigo> getLastCode(string ip)
+        {
+            Scratch_codigo codigo = new Scratch_codigo();
+            try
+            {
+                
+                string url = ip;
+                var client = new HttpClient();
+                var response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                var contenidoRespuesta = await response.Content.ReadAsStringAsync();
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+                codigo = JsonConvert.DeserializeObject<Scratch_codigo>(contenidoRespuesta, settings);
+            }
+            catch (Exception ex)
+            {
+                codigo = new Scratch_codigo();
+            }
+            return codigo;
+        }
+
     }
 }

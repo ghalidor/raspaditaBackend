@@ -38,7 +38,7 @@ namespace Domain
 
     public class Scratch_monto
     {
-        public Int64 monto { get; set; }
+        public float monto { get; set; }
 
     }
 
@@ -53,7 +53,7 @@ namespace Domain
 
     public class Scratch_jugada
     {
-        public Int64 saldo { get; set; }
+        public float saldo { get; set; }
         public string ip { get; set; }
     }
 

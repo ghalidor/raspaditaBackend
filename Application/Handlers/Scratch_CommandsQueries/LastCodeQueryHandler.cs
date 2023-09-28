@@ -19,8 +19,27 @@ namespace Application.Handlers.Scratch_CommandsQueries
         public async Task<Scratch_codigo> Handle(LastCodeQuery query, CancellationToken cancellationToken)
         {
             Scratch_codigo nuevo = new Scratch_codigo();
+            var puntojuego = await _puntoJuegoRepository.GetPuntoJuegoDetalle(query.puntojuego_id);
 
-            nuevo.codigo = "12345";
+
+            var valor = await _scratchRepository.getLastCode(puntojuego.ip);
+            if(valor.codigo==null)
+            {
+                nuevo.codigo = "sin conexion";
+            }
+            else
+            {
+                if (valor.codigo == "error")
+                {
+                    nuevo.codigo = "No hubo ticket desde qe se encendió el dispositivo";
+                }
+                else
+                {
+                    nuevo.codigo = valor.codigo;
+                }
+                
+            }
+            
             return nuevo;
         }
 

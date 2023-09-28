@@ -10,11 +10,13 @@ namespace Application.IRepository
         Task<ticket> GetTicketxid(Int64 id);
         Task<ticket> GetTicketxnroticket(string nroticket);
         Task<tickettransaccion> GetTicketSaldoxticket_id(Int64 id);
+        Task<tickettransaccion> GetTicketSaldoxticket_nro(string nroticket);
         Task<Int64> CreateTicket(ticket envio);
         Task<bool> UpdateTicket_nro(Int64 id, string nro_ticket);
         Task<bool> UpdateTicketEstado(ticket ticket);
         Task<Int64> Createticketpago(createticketPago ticket);
         Task<bool> UpdateTicketPago_nro(Int64 id, string nroticket);
         Task<ticketPagoDetalle> GetTicketPagoxid(Int64 id);
+        Task<ticketPagoDetalle> GetTicketPagoxticket_id(Int64 ticket_id);
     }
 }

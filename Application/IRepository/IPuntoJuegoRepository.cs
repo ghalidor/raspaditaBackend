@@ -10,5 +10,7 @@ namespace Application.IRepository
         Task<puntojuego> GetPuntoJuegoDetalle(Int64 id);
         Task<bool> CreatePuntoJuego(puntojuego puntojuego);
         Task<bool> UpdatePuntoJuego(puntojuego puntojuego);
+        Task<puntojuego> GetPuntoJuegoDetallexIp(string ip);
+        Task<bool> UpdatePuntoJuegoPosicion(Int64 id, Int64 posision);
     }
 }

@@ -29,48 +29,60 @@ namespace Application.Handlers.Ticket_CommandsQueries
             try
             {
                 var ticket = await _ticketRepository.GetTicketxnroticket(request.nroticket);
-                var saldoticket = await _ticketRepository.GetTicketSaldoxticket_id(ticket.id);
-
-                transacciones registro = new transacciones();
-                createticketPago nuevo = new createticketPago();
-                nuevo.usuario_id = 1;              
-                nuevo.caja_id = request.caja_id;               
-                nuevo.ticket_id = ticket.id;
-                nuevo.monto = saldoticket.saldoticketfin;
-                nuevo.fecharegistro = DateTime.Now;
-                Int64 id = await _ticketRepository.Createticketpago(nuevo);
-
-                if(id > 0)
+                if (ticket.estado)
                 {
-                    string nro = id.ToString().PadLeft(11, '0');
-                    await _ticketRepository.UpdateTicketPago_nro(id, nro);
-                    ticketCreado nuevoticket = new ticketCreado();
-                    var detalle = await _ticketRepository.GetTicketPagoxid(id);
-                    nuevoticket.nroticket = detalle.nroticket;
-                    nuevoticket.credito = (int)detalle.monto;
-                    nuevoticket.id = id;
-                    nuevoticket.monto = detalle.monto;
+                    var saldoticket = await _ticketRepository.GetTicketSaldoxticket_id(ticket.id);
 
-                    ticket ticketestado = new ticket();
-                    ticketestado.estado = false;
-                    ticketestado.id = ticket.id;
-                    bool cambiar = await _ticketRepository.UpdateTicketEstado(ticketestado);
+                    transacciones registro = new transacciones();
+                    createticketPago nuevo = new createticketPago();
+                    nuevo.usuario_id = 1;
+                    nuevo.caja_id = request.caja_id;
+                    nuevo.ticket_id = ticket.id;
+                    nuevo.monto = saldoticket.saldoticketfin;
+                    nuevo.fecharegistro = DateTime.Now;
+                    Int64 id = await _ticketRepository.Createticketpago(nuevo);
 
-                    registro.estadocobro = true;
-                    registro.comprobantepagonro = nro;
-                    registro.fechacobro = DateTime.Now;
-                    registro.estadopago = true;
-                    registro.id = saldoticket.transaccion_id;
-                    var trans = await _transaccionesRepository.UpdateTransaccionPago(registro);
+                    if (id > 0)
+                    {
+                        string nro = id.ToString().PadLeft(11, '0');
+                        await _ticketRepository.UpdateTicketPago_nro(id, nro);
+                        ticketCreado nuevoticket = new ticketCreado();
+                        var detalle = await _ticketRepository.GetTicketPagoxid(id);
+                        nuevoticket.nroticket = detalle.nroticket;
+                        nuevoticket.credito = (int)detalle.monto;
+                        nuevoticket.id = id;
+                        nuevoticket.monto = detalle.monto;
 
-                    response.ticket = nuevoticket;
-                    response.response = true;
-                    response.message = "Se registró Corréctamente";
+                        ticket ticketestado = new ticket();
+                        ticketestado.estado = false;
+                        ticketestado.id = ticket.id;
+                        bool cambiar = await _ticketRepository.UpdateTicketEstado(ticketestado);
+
+                        registro.estadocobro = true;
+                        registro.comprobantepagonro = nro;
+                        registro.fechacobro = DateTime.Now;
+                        registro.estadopago = true;
+                        registro.id = saldoticket.transaccion_id;
+                        var trans = await _transaccionesRepository.UpdateTransaccionPago(registro);
+
+                        response.ticket = nuevoticket;
+                        response.response = true;
+                        response.message = "Se registró Corréctamente";
+                    }
+                    else
+                    {
+                        response.message = "Error , no se pudo registrar";
+                    }
                 }
                 else
                 {
-                    response.message = "Error , no se pudo registrar";
+                    var ticket_caja = await _ticketRepository.GetTicketPagoxticket_id(ticket.id);
+                    var caja = await _cajaRepository.GetDetalleCaja(ticket_caja.caja_id);
+
+                    response.response = false;
+                    response.message = "Ticket ya Pagado en "+caja.nombre;
                 }
+                
             }
             catch(Exception exp)
             {

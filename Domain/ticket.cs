@@ -5,6 +5,7 @@ namespace Domain
     {
         public Int64 id { get; set; }
         public string nroticket { get; set; }
+        public Int64 apertura_id { get; set; }
         public Int64 caja_id { get; set; }
         public string caja_nombre { get; set; }
         public Int64 puntojuego_id { get; set; }

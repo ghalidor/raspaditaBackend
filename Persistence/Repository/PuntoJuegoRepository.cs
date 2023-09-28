@@ -58,6 +58,34 @@ namespace Persistence.Repository
             return await db.QueryFirstOrDefaultAsync<puntojuego>(sql, new { id = id });
         }
 
+        public async Task<puntojuego> GetPuntoJuegoDetallexIp(string ip)
+        {
+            var db = _context.CreateConnection();
+            var sql = @" SELECT [id]
+      ,[local_id]
+      ,[nro_punto]
+      ,[ip]
+ ,[fecharegistro]
+      ,[fechaupdated]
+ ,[posicion]
+      ,[estado]
+  FROM [puntojuego]
+                    where ip=@ip";
+            return await db.QueryFirstOrDefaultAsync<puntojuego>(sql, new { ip = ip });
+        }
+
+        public async Task<bool> UpdatePuntoJuegoPosicion(Int64 id, Int64 posision)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"UPDATE  puntojuego
+          set  
+           posicion=@posicion
+            where id=@id";
+            var result = await db.ExecuteAsync(
+                    sql, new{id=id,posicion=posision });
+            return result > 0;
+        }
+
         public async Task<bool> CreatePuntoJuego(puntojuego puntojuego)
         {
             var db = _context.CreateConnection();
@@ -88,5 +116,7 @@ namespace Persistence.Repository
                     sql, puntojuego);
             return result > 0;
         }
+
+       
     }
 }

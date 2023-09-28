@@ -11,12 +11,14 @@ namespace Application.Handlers.Ticket_CommandsQueries
         private readonly ICajaRepository _cajaRepository;
         private readonly ITicketRepository _ticketRepository;
         private readonly ITransaccionesRepository _transaccionesRepository;
+        private readonly IAperturaRepository _aperturaRepository;
         public GenerarTicketCommandHandler(ICajaRepository cajaRepository,
-           ITicketRepository ticketRepository, ITransaccionesRepository transaccionesRepository)
+           ITicketRepository ticketRepository, ITransaccionesRepository transaccionesRepository, IAperturaRepository aperturaRepository)
         {
             _cajaRepository = cajaRepository;
             _ticketRepository = ticketRepository;
             _transaccionesRepository = transaccionesRepository;
+            _aperturaRepository = aperturaRepository;
         }
 
         public async Task<ServiceResponseTicket> Handle(GenerarTicketCommand request, CancellationToken cancellationToken)
@@ -28,7 +30,26 @@ namespace Application.Handlers.Ticket_CommandsQueries
             ServiceResponseTicket response = new ServiceResponseTicket();
             try
             {
+                DateTime hoy = DateTime.Now;
+                Int64 local_id = 0;
 
+                var caja = await _cajaRepository.GetDetalleCaja(request.NewTicket.caja_id);
+
+                var aperturalista = await _aperturaRepository.GetAperturaxlocal_idxfechahoy(caja.local_id, request.NewTicket.caja_id, hoy);
+
+                if(!aperturalista.Any())
+                {
+                    response.response = false;
+                    response.message = "No hay aperturas Activas";
+                    return response;
+                }
+                apertura aperturadetalle = aperturalista.Where(x => x.estado == 1).FirstOrDefault();
+                if(aperturadetalle == null)
+                {
+                    response.response = false;
+                    response.message = "No hay aperturas Activas";
+                    return response;
+                }
 
                 transacciones registro =new transacciones();
                 ticket nuevo = new ticket();
@@ -37,6 +58,7 @@ namespace Application.Handlers.Ticket_CommandsQueries
                 nuevo.puntojuego_id = request.NewTicket.puntojuego_id;
                 nuevo.monto = request.NewTicket.monto;
                 nuevo.credito=request.NewTicket.credito;
+                nuevo.apertura_id = aperturadetalle.id;
                 Int64 id = await _ticketRepository.CreateTicket(nuevo);
                
                 if(id>0)

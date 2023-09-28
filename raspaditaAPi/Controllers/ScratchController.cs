@@ -15,19 +15,13 @@ namespace raspaditaAPi.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("newScratch")]
-        public async Task<IActionResult> newScratch(Int64 indice, string ip)
+        [HttpGet("newScratch/{ip}")]
+        public async Task<IActionResult> newScratch(string ip)
         {
-            var data = await _mediator.Send(new NewScratchQuery() { indice = indice, ip = ip });
+            var data = await _mediator.Send(new NewScratchQuery() { ip = ip });
             return new OkObjectResult(data);
         }
 
-        [HttpPost("newScratch")]
-        public async Task<IActionResult> newScratch(Scratch_objectonew objeto)
-        {
-            var data = await _mediator.Send(new NewScratchQuery() { indice = objeto.indice, ip = objeto.ip });
-            return new OkObjectResult(data);
-        }
 
         [HttpPost("acreditacion")]
         public async Task<IActionResult> acreditacion(Scratch_objecto objeto)
@@ -51,10 +45,10 @@ namespace raspaditaAPi.Controllers
             return new OkObjectResult(data);
         }
 
-        [HttpGet("lastcode")]
-        public async Task<IActionResult> lastcode()
+        [HttpGet("lastcode/{puntojuego_id}")]
+        public async Task<IActionResult> lastcode(Int64 puntojuego_id)
         {
-            var data = await _mediator.Send(new LastCodeQuery());
+            var data = await _mediator.Send(new LastCodeQuery() { puntojuego_id =puntojuego_id});
             return new OkObjectResult(data);
         }
 

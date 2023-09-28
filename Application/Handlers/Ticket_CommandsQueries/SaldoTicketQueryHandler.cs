@@ -35,7 +35,7 @@ public class SaldoTicketQueryHandler : IRequestHandler<SaldoTicketQuery, ticketS
             ticketSaldo.caja_id = tickets.caja_id;
             ticketSaldo.nroticket=tickets.nroticket;
             ticketSaldo.nroticketpago = tickets.comprobantepagonro;
-            ticketSaldo.monto = tickets.monto;
+            ticketSaldo.monto = tickets.saldoticketfin;
             ticketSaldo.fecharegistro_string = tickets.fecharegistro.ToString("dd-MM-yyyy") != "01-01-0001" ? tickets.fecharegistro.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";          
             ticketSaldo.fechapago_string = tickets.fechacobro.ToString("dd-MM-yyyy") != "01-01-0001" ? tickets.fechacobro.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture) : "----";
             ticketSaldo.response = true;

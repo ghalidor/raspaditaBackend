@@ -84,5 +84,20 @@ namespace Persistence.Repository
                     sql, transacciones);
             return result > 0;
         }
+
+        public async Task<bool> Estadocobro(Int64 id,bool estadocobro)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"UPDATE transacciones
+                                SET
+                                    estadocobro=@estadocobro
+                                     where id=@id";
+            var result = await db.ExecuteAsync(
+                    sql, new
+                    {
+                        id = id, estadocobro = estadocobro
+                    });
+            return result > 0;
+        }
     }
 }

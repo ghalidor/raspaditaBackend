@@ -10,11 +10,12 @@ namespace Application.Handlers.Scratch_CommandsQueries
     {
         private readonly IScratchRepository _scratchRepository;
         private readonly IPuntoJuegoRepository _puntoJuegoRepository;
-        public AcreditacionQueryHandler(IScratchRepository scratchRepository, IPuntoJuegoRepository puntoJuegoRepository)
+        private readonly ITicketRepository _ticketRepository;
+        public AcreditacionQueryHandler(IScratchRepository scratchRepository, IPuntoJuegoRepository puntoJuegoRepository, ITicketRepository ticketRepository)
         {
             _scratchRepository = scratchRepository;
             _puntoJuegoRepository = puntoJuegoRepository;
-
+            _ticketRepository = ticketRepository;
         }
         public async Task<Scratch_monto> Handle(AcreditacionQuery query, CancellationToken cancellationToken)
         {
@@ -25,8 +26,18 @@ namespace Application.Handlers.Scratch_CommandsQueries
             Scratch_monto nuevo = new Scratch_monto();
             string ip = query.ip;
             string ticket = query.ticket;
+            var puntojuego = await _puntoJuegoRepository.GetPuntoJuegoDetallexIp(query.ip);
+            var tickets = await _ticketRepository.GetTicketSaldoxticket_nro(query.ticket);
+            if (tickets.estadocobro)
+            {
+                nuevo.monto = 0;
+            }
+            else
+            {
+                nuevo.monto = tickets.saldoticketfin;
+            }
 
-            nuevo.monto = 32;
+            //nuevo.monto = 32;
             return nuevo;
         }
     }
