@@ -87,6 +87,8 @@ namespace Domain
     public class tickettransaccion
     {
         public Int64 ticket_id { get; set; }
+        public Int64 apertura_id { get; set; }
+        public bool acreditado { get; set; }
         public float credito { get; set; }
         public float monto { get; set; }
         public DateTime fecharegistro { get; set; }

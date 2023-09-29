@@ -55,7 +55,7 @@ namespace Application.Handlers.Ticket_CommandsQueries
                 ticket nuevo = new ticket();
                 nuevo.estado = true;
                 nuevo.fecharegistro = DateTime.Now;
-                nuevo.puntojuego_id = request.NewTicket.puntojuego_id;
+                nuevo.puntojuego_id = 0;//request.NewTicket.puntojuego_id;
                 nuevo.monto = request.NewTicket.monto;
                 nuevo.credito=request.NewTicket.credito;
                 nuevo.apertura_id = aperturadetalle.id;
