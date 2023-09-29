@@ -28,16 +28,22 @@ namespace Application.Handlers.Scratch_CommandsQueries
             string ticket = query.ticket;
             var puntojuego = await _puntoJuegoRepository.GetPuntoJuegoDetallexIp(query.ip);
             var tickets = await _ticketRepository.GetTicketSaldoxticket_nro(query.ticket);
-            if (tickets.estadocobro)
+            if(tickets == null)
             {
                 nuevo.monto = 0;
             }
             else
             {
-                nuevo.monto = tickets.saldoticketfin;
+                if(tickets.acreditado)
+                {
+                    nuevo.monto = 0;
+                }
+                else
+                {
+                    nuevo.monto = tickets.saldoticketfin;
+                    await _ticketRepository.UpdateTicketAcreditado(true, tickets.ticket_id, puntojuego.id);
+                }
             }
-
-            //nuevo.monto = 32;
             return nuevo;
         }
     }

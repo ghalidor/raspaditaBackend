@@ -14,6 +14,7 @@ namespace Application.IRepository
         Task<Int64> CreateTicket(ticket envio);
         Task<bool> UpdateTicket_nro(Int64 id, string nro_ticket);
         Task<bool> UpdateTicketEstado(ticket ticket);
+        Task<bool> UpdateTicketAcreditado(bool acreditado, Int64 id, Int64 puntojuego_id);
         Task<Int64> Createticketpago(createticketPago ticket);
         Task<bool> UpdateTicketPago_nro(Int64 id, string nroticket);
         Task<ticketPagoDetalle> GetTicketPagoxid(Int64 id);

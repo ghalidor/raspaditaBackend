@@ -50,8 +50,6 @@ namespace Persistence.Repository
             var sql = @"SELECT t.[id]
       ,t.[nroticket]
       ,t.[puntojuego_id]
-	  ,pj.ip puntojuego_ip
-,pj.nro_punto puntojuego_nombre
 	  ,c.id caja_id
 	  ,c.nombre caja_nombre
       ,t.[credito]
@@ -59,9 +57,9 @@ namespace Persistence.Repository
       ,t.[fecharegistro]
       ,t.[estado]
   FROM [ticket] t
-left join puntojuego pj on pj.id=t.puntojuego_id
-left join local l on l.id = pj.local_id
-left join caja c on c.local_id=pj.local_id 
+left join apertura aper on aper.id=t.[apertura_id]
+left join local l on l.id = aper.local_id
+left join caja c on c.local_id=aper.local_id 
 where c.id=@caja_id 
                     order by t.id asc";
             return await db.QueryAsync<ticket>(sql, new { caja_id = caja_id });
@@ -133,6 +131,7 @@ SELECT top 1 t.[id] ticket_id
       , t.[credito]
       , t.[monto]
       , t.[fecharegistro]
+        ,t.acreditado
       , t.[estado]
         ,tr.id transaccion_id
 ,tr.jugada
@@ -183,6 +182,22 @@ SELECT top 1 t.[id] ticket_id
                                     estado = @estado where id=@id";
             var result = await db.ExecuteAsync(
                     sql, ticket);
+            return result > 0;
+        }
+
+        public async Task<bool> UpdateTicketAcreditado(bool acreditado,Int64 id,Int64 puntojuego_id)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"UPDATE ticket
+                                SET
+                                    puntojuego_id=@puntojuego_id
+                                    ,acreditado = @acreditado where id=@id";
+            var result = await db.ExecuteAsync(
+                    sql, new
+                    {
+                        acreditado=acreditado, id=id,
+                        puntojuego_id= puntojuego_id
+                    });
             return result > 0;
         }
 
