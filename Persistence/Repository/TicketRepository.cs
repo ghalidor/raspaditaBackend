@@ -52,6 +52,7 @@ namespace Persistence.Repository
       ,t.[puntojuego_id]
 	  ,c.id caja_id
 	  ,c.nombre caja_nombre
+         ,aper.id apertura_id
       ,t.[credito]
       ,t.[monto]
       ,t.[fecharegistro]
@@ -63,6 +64,28 @@ left join caja c on c.local_id=aper.local_id
 where c.id=@caja_id 
                     order by t.id asc";
             return await db.QueryAsync<ticket>(sql, new { caja_id = caja_id });
+        }
+
+        public async Task<IEnumerable<ticket>> GetTicketsxCaja_idxfecha(Int64 caja_id , DateTime fecha)
+        {
+            var db = _context.CreateConnection();
+            var sql = @"SELECT t.[id]
+      ,t.[nroticket]
+      ,t.[puntojuego_id]
+	  ,c.id caja_id
+	  ,c.nombre caja_nombre
+         ,aper.id apertura_id
+      ,t.[credito]
+      ,t.[monto]
+      ,t.[fecharegistro]
+      ,t.[estado]
+  FROM [ticket] t
+left join apertura aper on aper.id=t.[apertura_id]
+left join local l on l.id = aper.local_id
+left join caja c on c.local_id=aper.local_id 
+where c.id=@caja_id and convert(date,t.fecharegistro) = convert(date,@fecha)
+                    order by t.id desc";
+            return await db.QueryAsync<ticket>(sql, new { caja_id = caja_id,fecha=fecha });
         }
 
         public async Task<ticket> GetTicketxid(Int64 id)

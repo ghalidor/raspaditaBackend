@@ -7,6 +7,7 @@ namespace Application.IRepository
         Task<IEnumerable<ticket>> GetTicket();
         Task<IEnumerable<ticket>> GetTicketoxPuntojuego_id(Int64 puntojuego_id);
         Task<IEnumerable<ticket>> GetTicketsxCaja_id(Int64 caja_id);
+        Task<IEnumerable<ticket>> GetTicketsxCaja_idxfecha(Int64 caja_id, DateTime fecha);
         Task<ticket> GetTicketxid(Int64 id);
         Task<ticket> GetTicketxnroticket(string nroticket);
         Task<tickettransaccion> GetTicketSaldoxticket_id(Int64 id);
