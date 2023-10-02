@@ -1,0 +1,72 @@
+[
+  {
+    "tipo": "vista",
+    "method": "GET",
+    "controlador": "Ticket",
+    "uri": "api/Ticket/ViewTicket",
+    "action": "ViewTicket"
+  },
+  {
+    "tipo": "vista",
+    "method": "GET",
+    "controlador": "Apertura",
+    "uri": "api/Apertura/ViewApertura",
+    "action": "ViewApertura"
+  },
+  {
+    "tipo": "vista",
+    "method": "GET",
+    "controlador": "Caja",
+    "uri": "api/Ticket/ViewCajaLocal",
+    "action": "ViewCajaLocal"
+  },
+  {
+    "tipo": "vista",
+    "method": "GET",
+    "controlador": "Dispositivo",
+    "uri": "api/Dispositivo/ViewDispositivoLocal",
+    "action": "ViewDispositivoLocal"
+  },
+  {
+    "tipo": "vista",
+    "method": "GET",
+    "controlador": "Caja",
+    "uri": "api/Caja/ViewCaja",
+    "action": "ViewCaja"
+  },
+  {
+    "tipo": "vista",
+    "method": "GET",
+    "controlador": "Local",
+    "uri": "api/Local/ViewLocal",
+    "action": "ViewLocal"
+  },
+  {
+    "tipo": "vista",
+    "method": "GET",
+    "controlador": "Dispositivo",
+    "uri": "api/Dispositivo/ViewDispositivo",
+    "action": "ViewDispositivo"
+  },
+  {
+    "tipo": "vista",
+    "method": "GET",
+    "controlador": "Rol",
+    "uri": "api/Rol/ViewRol",
+    "action": "ViewRol"
+  },
+  {
+    "tipo": "vista",
+    "method": "GET",
+    "controlador": "Usuario",
+    "uri": "api/Usuario/ViewUsuario",
+    "action": "ViewUsuario"
+  },
+  {
+    "tipo": "vista",
+    "method": "GET",
+    "controlador": "Usuario",
+    "uri": "api/Usuario/ViewUsuarioCaja",
+    "action": "ViewUsuarioCaja"
+  }
+]

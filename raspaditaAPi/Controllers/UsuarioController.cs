@@ -2,6 +2,7 @@
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using raspaditaAPi.seguridad;
 
 namespace raspaditaAPi.Controllers
 {
@@ -10,9 +11,11 @@ namespace raspaditaAPi.Controllers
     public class UsuarioController : Controller
     {
         private readonly IMediator _mediator;
-        public UsuarioController(IMediator mediator)
+        private readonly IJwtUtils _jwtUtils;
+        public UsuarioController(IMediator mediator, IJwtUtils jwtUtils)
         {
             _mediator = mediator;
+            _jwtUtils = jwtUtils;
         }
 
         [HttpGet("GetUsuarios")]
@@ -71,11 +74,13 @@ namespace raspaditaAPi.Controllers
             return new OkObjectResult(response);
         }
 
+        [AllowAnonymous]
         [HttpPost("LoginUsuario")]
         public async Task<IActionResult> LoginUsuario([FromBody] usuarioLogin usuario)
         {
             var command = new LoginUsuarioQuery() { login = usuario };
             usuarioResponse response = await _mediator.Send(command);
+            response.token = _jwtUtils.GenerateToken(response);
             return new OkObjectResult(response);
         }
     }

@@ -5,6 +5,7 @@ using Domain;
 using MediatR;
 using Utilitario;
 
+
 namespace Application.Handlers.Usuario_CommandsQueries
 {
     public class LoginUsuarioQueryHandler : IRequestHandler<LoginUsuarioQuery, usuarioResponse>
@@ -12,12 +13,14 @@ namespace Application.Handlers.Usuario_CommandsQueries
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly ICajaRepository _cajaRepository;
         private readonly ILocalRepository _localRepository;
+ 
         public LoginUsuarioQueryHandler(IUsuarioRepository usuarioRepository,
             ILocalRepository localRepository,ICajaRepository cajaRepository)
         {
             _usuarioRepository = usuarioRepository;
             _cajaRepository = cajaRepository;
             _localRepository = localRepository;
+        
         }
         public async Task<usuarioResponse> Handle(LoginUsuarioQuery query, CancellationToken cancellationToken)
         {

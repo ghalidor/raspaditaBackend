@@ -1,0 +1,201 @@
+﻿body {
+    margin: 0;
+    background: #250241;
+    color: rgba(255, 188, 71, 1);
+    font-family: "Roboto", sans-serif;
+    text-shadow: black 1px 1px 1px;
+}
+
+.url {
+    display: none;
+}
+
+h2.title {
+    color: rgba(255, 188, 71, 1) !important;
+}
+
+.swagger-ui .topbar {
+    display:none;
+    background-color: #6b4793;
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary-method {
+    background: #0043bd;
+    border: 1px solid #6893f5;
+}
+
+.swagger-ui .opblock.opblock-post .opblock-summary-method {
+    background: #098307;
+    border: 1px solid #54d758;
+}
+
+.swagger-ui a.nostyle {
+    color: #fff !important;
+}
+
+.opblock-tag-section {
+    border-bottom: 1px solid;
+}
+
+.block-desktop {
+    margin-bottom: 39px;
+}
+
+.swagger-ui .info {
+    margin-top: 28px;
+    margin-bottom: 28px;
+}
+
+.swagger-ui .opblock.opblock-get,
+.swagger-ui .opblock.opblock-post {
+    background: rgb(105 62 161) !important;
+    border-color: #c5850f !important;
+}
+
+.version-stamp,.version{
+    display:none !important;
+}
+
+.swagger-ui .info .title small{
+    display:none !important;
+}
+
+.opblock .opblock-post {
+    background: rgb(105 62 161) !important;
+    border-color: #c5850f !important;
+}
+
+.swagger-ui .opblock-tag {
+    border-bottom: 1px solid rgb(201 143 32);
+}
+
+.opblock-tag-section {
+    border-bottom: none;
+}
+
+    .swagger-ui .opblock .opblock-section-header {
+    background: hsl(266.06deg 44.39% 43.73%) !important;
+}
+
+    .swagger-ui .opblock .opblock-section-header h4 {
+        color: #ffffff;
+    }
+
+.swagger-ui table thead tr td, .swagger-ui table thead tr th {
+    border-bottom: 1px solid rgb(255 206 18);
+    color: #ffffff !important;
+}
+
+.parameters-col_name div {
+    color: #ffffff !important;
+}
+
+.swagger-ui .prop-format {
+    color: #f1bf00;
+}
+
+.swagger-ui .opblock .opblock-section-header {
+    box-shadow: 0 1px 1px rgb(255 141 0 / 38%);
+}
+
+.swagger-ui .response td {
+    color: #ffffff;
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary {
+    border-color: #df8c10;
+}
+
+.swagger-ui .btn {
+    background: #e71515;
+    border: 1px solid #c76a6a;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+    color: #ffffff;
+}
+
+    .swagger-ui .btn.execute {
+        background-color: #f14545;
+        border-color: #ff9797;
+        color: #fff;
+    }
+
+    .swagger-ui .btn.cancel {
+        background-color: #ef0a0a;
+        border-color: #ff6060;
+        color: #ddc6c6;
+    }
+
+.swagger-ui .download-contents {
+    background: #32a756;
+    border: 1px solid #6ed592;
+    bottom: -14px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 200;
+    height: 26px;
+    padding: 6px;
+    right: 20px;
+}
+
+.swagger-ui .copy-to-clipboard {
+    background: #083ef5;
+    border: 1px solid #6e8ed5;
+    bottom: -15px;
+    height: 27px;
+    right: 92px;
+}
+
+.swagger-ui .opblock-body pre.microlight {
+    word-wrap: break-word;
+    background: #3111b1;
+    border: 1px solid #fff;
+}
+    .swagger-ui .responses-inner h4, .swagger-ui .responses-inner h5 {
+    color: #ffffff;
+}
+
+.swagger-ui .expand-methods, .swagger-ui .expand-operation {
+    background: #9f63e1;
+    border: 1px solid #a59edf;
+    color: #fff;
+}
+
+.swagger-ui .opblock .opblock-summary-operation-id, .swagger-ui .opblock .opblock-summary-path, .swagger-ui .opblock .opblock-summary-path__deprecated {
+    font-weight: 300;
+}
+    .swagger-ui .model-box-control:focus, .swagger-ui .models-control:focus, .swagger-ui .opblock-summary-control:focus {
+    outline: transparent;
+}
+
+.swagger-ui .opblock-description-wrapper p, .swagger-ui .opblock-external-docs-wrapper, .swagger-ui .opblock-title_normal {
+    color: #ffffff;
+}
+
+.tab li a {
+    color: #ffffff;
+}
+
+.arrow use {
+    color: #fff !important;
+}
+
+.select-label span {
+    display: none;
+}
+
+body::-webkit-scrollbar {
+    width: 10px;
+    overflow-y: hidden;
+    cursor: pointer;
+}
+
+body::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    background: #5a209c;
+}
+
+body::-webkit-scrollbar-track {
+    border-radius: 0px;
+    background: #8041d1;
+}
